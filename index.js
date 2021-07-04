@@ -3,6 +3,7 @@ const csv = require('csv-parser');
 const fs = require('fs');
 const { parse } = require('path');
 let UserInputTime = process.argv[3];
+
 let userInputDate = process.argv[2];
 const results = [];
 let stockNames = new Array();
