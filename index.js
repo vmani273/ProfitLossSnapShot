@@ -1,3 +1,4 @@
+const exec = require('child_process').exec;
 const csv = require('csv-parser');
 const fs = require('fs');
 const { parse } = require('path');
@@ -7,17 +8,38 @@ const results = [];
 let stockNames = new Array();
 let lineNum = 0;
 let totalProfitLoss = 0;
-let filePath = "/Users/vishwasmani/Desktop/Personal/Code/Javascript_Apps/pandl-snap-shot/TestFiles/" + userInputDate + ".csv";
+let filePath = "/Users/vishwasmani/Desktop/Personal/Code/ProfitLossSnapShot/TestFiles/" + userInputDate + ".txt";
+ 
+// line num start from last line vs first line
+    // sed $'s/[^[:print:]\t]//g' 063021-cool.csv > 063021.txt
+// test txt conversion
+
+// compare times
+// fix algorithmmmmm 
+
+// removing extra characters in file 
+
+
+let relative_path = "TestFiles/" + userInputDate + ".txt"
+exec(' sed -i \'\' $\'s/[^[:print:]\t]//g\' ' + relative_path + ' > TestFiles/temp.txt', (e, stdout, stderr) => {
+
+    console.log(stdout);
+
+});
+
+
 
 
 fs.createReadStream(filePath)
     .pipe(
-        csv(['date', 'time', 'stock', 'action', 'amount', 'price'])
+        csv(['date', 'time', 'stock', 'action', 'quantity', 'price'])
     )
     .on('data', function (dataRow) {
         results.push(dataRow);
     })
     .on('end', function() {
+
+        
         createArrayOfObjects();
        
         var fields = UserInputTime.split(':');
@@ -25,6 +47,7 @@ fs.createReadStream(filePath)
         var minute = parseInt(fields[1]);
 
         profitLossLogic(hour, minute, (data) => {
+            
             printFunc();
         })
         
@@ -43,9 +66,11 @@ const profitLossLogic = (hour, minute, callback) => {
 
         var currentHour = parseInt(timeSplits[0]);
         var currentMinute = parseInt(timeSplits[1]);
+        
         if(currentHour > hour) {
             break;
         }
+        
         if(currentHour == hour && currentMinute >= minute) {
             break;
         }
@@ -63,13 +88,15 @@ const profitLossLogic = (hour, minute, callback) => {
 
 
         if(results[lineNum].action == 'B') {
-            stockNames[stockIndex].boughtTotal += parseFloat(results[lineNum].price) * parseFloat(results[lineNum].amount);
-            stockNames[stockIndex].positionHeld +=  parseInt(results[lineNum].amount);
+            // console.log("goes here")
+            // console.log(results[lineNum].quantity);
+            stockNames[stockIndex].boughtTotal += parseFloat(results[lineNum].price) * parseFloat(results[lineNum].quantity);
+            stockNames[stockIndex].positionHeld +=  parseInt(results[lineNum].quantity);
             
         } 
         if(results[lineNum].action == 'S') {
-            stockNames[stockIndex].soldTotal += parseFloat(results[lineNum].price) * parseFloat(results[lineNum].amount);
-            stockNames[stockIndex].positionHeld -=  parseInt(results[lineNum].amount);
+            stockNames[stockIndex].soldTotal += parseFloat(results[lineNum].price) * parseFloat(results[lineNum].quantity);
+            stockNames[stockIndex].positionHeld -=  parseInt(results[lineNum].quantity);
            ;
         } 
 
