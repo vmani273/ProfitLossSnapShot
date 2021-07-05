@@ -9,7 +9,7 @@ const results = [];
 let stockNames = new Array();
 let lineNum = 0;
 let totalProfitLoss = 0;
-let filePath = "/Users/vishwasmani/Desktop/Personal/Code/ProfitLossSnapShot/TestFiles/" + userInputDate + ".txt";
+let filePath = "/home/opc/ProfitLossSnapShot/TestFiles/" + userInputDate + ".txt";
  
 // line num start from last line vs first line
     // sed $'s/[^[:print:]\t]//g' 063021-cool.csv > 063021.txt
