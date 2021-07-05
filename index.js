@@ -12,7 +12,7 @@ let totalProfitLoss = 0;
 let filePath = "/home/opc/ProfitLossSnapShot/TestFiles/" + userInputDate + ".txt";
  
 // line num start from last line vs first line
-    // sed $'s/[^[:print:]\t]//g' 063021-cool.csv > 063021.txt
+    // sed -i '' $'s/[^[:print:]\t]//g' 063021-cool.csv > 063021.txt
 // test txt conversion
 
 // compare times
@@ -22,7 +22,7 @@ let filePath = "/home/opc/ProfitLossSnapShot/TestFiles/" + userInputDate + ".txt
 
 
 let relative_path = "TestFiles/" + userInputDate + ".txt"
-exec(' sed -i \'\' $\'s/[^[:print:]\t]//g\' ' + relative_path + ' > TestFiles/temp.txt', (e, stdout, stderr) => {
+exec(' sed -i \'\'$\'s/[^[:print:]\t]//g\' ' + relative_path + ' > TestFiles/temp.txt', (e, stdout, stderr) => {
 
     console.log(stdout);
 
