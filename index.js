@@ -16,8 +16,6 @@ let filePath = "/home/opc/ProfitLossSnapShot/TestFiles/" + userInputDate + ".txt
 
 // compare times
 // fix algorithmmmmm 
-// only for new_algo
-// test number 2
 
 
 let relative_path = "TestFiles/" + userInputDate + ".txt"
@@ -103,27 +101,20 @@ const profitLossLogic = (hour, minute, callback) => {
 
 
         if(results[lineNum].action == 'B') {
-            // console.log("goes here")
-            // console.log(results[lineNum].quantity);
-            stockNames[stockIndex].boughtTotal += parseFloat(results[lineNum].price) * parseFloat(results[lineNum].quantity);
+        
+            stockNames[stockIndex].totalProfitLossPerStock -= parseFloat(results[lineNum].price) * parseFloat(results[lineNum].quantity);
+
             stockNames[stockIndex].positionHeld +=  parseInt(results[lineNum].quantity);
             
         } 
         if(results[lineNum].action == 'S') {
-            stockNames[stockIndex].soldTotal += parseFloat(results[lineNum].price) * parseFloat(results[lineNum].quantity);
+            stockNames[stockIndex].totalProfitLossPerStock += parseFloat(results[lineNum].price) * parseFloat(results[lineNum].quantity);
+
             stockNames[stockIndex].positionHeld -=  parseInt(results[lineNum].quantity);
            
         } 
 
-        if(stockNames[stockIndex].positionHeld == 0) {
-            let netProfit = stockNames[stockIndex].soldTotal - stockNames[stockIndex].boughtTotal;
-            stockNames[stockIndex].totalProfitLossPerStock += netProfit;
-            // console.log("sold total: " + stockNames[stockIndex].soldTotal + " - bought total: " + stockNames[stockIndex].boughtTotal + " = Net Profit " + netProfit);
-            // console.log("Total Profit Loss " + stockNames[stockIndex].totalProfitLossPerStock);
-            stockNames[stockIndex].soldTotal = 0;
-            stockNames[stockIndex].boughtTotal = 0;
-            
-        }
+     
    
 
         if(lineNum == results.length - 1) {
