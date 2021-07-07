@@ -16,7 +16,7 @@ let filePath = "/home/opc/ProfitLossSnapShot/TestFiles/" + userInputDate + ".txt
 
 // compare times
 // fix algorithmmmmm 
-
+// only for new_algo
 
 
 
