@@ -17,11 +17,11 @@ let filePath = "/home/opc/ProfitLossSnapShot/TestFiles/" + userInputDate + ".txt
 // compare times
 // fix algorithmmmmm 
 
-// removing extra characters in file 
+
 
 
 let relative_path = "TestFiles/" + userInputDate + ".txt"
-exec(' sed -i \'\'$\'s/[^[:print:]\t]//g\' ' + relative_path + ' > TestFiles/temp.txt', (e, stdout, stderr) => {});
+exec(' sed -i \'\'$\'s/[^[:print:]\t]//g\' ' + relative_path, (e, stdout, stderr) => {});
 
 
 fs.createReadStream(filePath)
@@ -37,7 +37,7 @@ fs.createReadStream(filePath)
         let minute;
 
         if(UserInputTime == null) {
-            hour = 16;
+            hour = 20;
             minute = 0;
             
         } else {
@@ -49,6 +49,16 @@ fs.createReadStream(filePath)
         
         createArrayOfObjects();
        
+        // wskskchecking if rows in csv file are in order.
+        if( !( (results[0].date.includes('/')) && (results[0].time.includes(':')) && (!results[0].stock.includes(':') && !results[0].stock.includes('/') && !results[0].stock.includes('.')) && (results[0].action.includes('B') || results[0].action.includes('S')) && (results[0].price.includes('.'))  )) {
+            console.log("Input file not valid. Please double check the order and/or content of the file")
+            process.exit(1);
+        } 
+
+    
+
+        
+        
       
 
         profitLossLogic(hour, minute, (data) => {
