@@ -3,7 +3,6 @@ const csv = require('csv-parser');
 const fs = require('fs');
 const { parse } = require('path');
 let UserInputTime = process.argv[3];
-
 let userInputDate = process.argv[2];
 const results = [];
 let stockNames = new Array();
@@ -12,7 +11,7 @@ let totalProfitLoss = 0;
 let filePath = "/home/opc/ProfitLossSnapShot/TestFiles/" + userInputDate + ".txt";
  
 // line num start from last line vs first line
-    // sed -i '' $'s/[^[:print:]\t]//g' 063021-cool.csv > 063021.txt
+    // sed -i '' $'s/[^[:print:]\t]//g' 063021-cool.csv 
 // test txt conversion
 
 // compare times
@@ -22,13 +21,7 @@ let filePath = "/home/opc/ProfitLossSnapShot/TestFiles/" + userInputDate + ".txt
 
 
 let relative_path = "TestFiles/" + userInputDate + ".txt"
-exec(' sed -i \'\'$\'s/[^[:print:]\t]//g\' ' + relative_path + ' > TestFiles/temp.txt', (e, stdout, stderr) => {
-
-    console.log(stdout);
-
-});
-
-
+exec(' sed -i \'\'$\'s/[^[:print:]\t]//g\' ' + relative_path + ' > TestFiles/temp.txt', (e, stdout, stderr) => {});
 
 
 fs.createReadStream(filePath)
@@ -40,12 +33,23 @@ fs.createReadStream(filePath)
     })
     .on('end', function() {
 
+        let hour;
+        let minute;
+
+        if(UserInputTime == null) {
+            hour = 16;
+            minute = 0;
+            
+        } else {
+            fields = UserInputTime.split(':');
+            hour = parseInt(fields[0]);
+            minute = parseInt(fields[1]);
+        }
+
         
         createArrayOfObjects();
        
-        var fields = UserInputTime.split(':');
-        var hour = parseInt(fields[0]);
-        var minute = parseInt(fields[1]);
+      
 
         profitLossLogic(hour, minute, (data) => {
             
@@ -98,7 +102,7 @@ const profitLossLogic = (hour, minute, callback) => {
         if(results[lineNum].action == 'S') {
             stockNames[stockIndex].soldTotal += parseFloat(results[lineNum].price) * parseFloat(results[lineNum].quantity);
             stockNames[stockIndex].positionHeld -=  parseInt(results[lineNum].quantity);
-           ;
+           
         } 
 
         if(stockNames[stockIndex].positionHeld == 0) {
@@ -147,7 +151,7 @@ const createArrayOfObjects = () => {
 
 
 const printFunc = () => {
-    console.log("Stock  Realized");
+    console.log("Stock  Realized:");
             for(var i = 0; i < stockNames.length; i++) {
 
                 
