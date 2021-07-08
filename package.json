@@ -10,6 +10,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "csv-parser": "^3.0.0"
+    "csv-parser": "^3.0.0",
+    "date-and-time": "^1.0.1",
+    "nvm": "0.0.4",
+    "yargs": "^17.0.1"
   }
 }
