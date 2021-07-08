@@ -6,7 +6,7 @@ const index = require('./index.js')
 // make demand optoin for tim in total by increment false
 // day - 
 yargs.command({
-    command: 'total_summary',
+    command: 'summary',
     describe: 'List the total realized amount for all stocks',
     builder: {
         date: {
@@ -27,7 +27,7 @@ yargs.command({
 
 
 yargs.command({
-    command: 'total-breakdown',
+    command: 'breakdown',
     describe: 'List the p&l through the day in 15 min increments',
     builder: {
         date: {
